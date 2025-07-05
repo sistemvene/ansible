@@ -1,0 +1,60 @@
+---
+- name: Listar VMs y LXC en Proxmox usando token API
+  hosts: localhost
+  gather_facts: no
+  vars:
+    api_host: "https://192.168.3.6:8006"
+    api_token_id: "admintst@pam!mytokenid"
+    api_token_secret: "ca6d23ae-161a-4236-87f7-0e0a2ce7e506"
+    headers:
+      Authorization: "PVEAPIToken={{ api_token_id }}={{ api_token_secret }}"
+      Content-Type: "application/json"
+
+  tasks:
+    - name: Obtener lista de nodos
+      uri:
+        url: "{{ api_host }}/api2/json/nodes"
+        method: GET
+        headers: "{{ headers }}"
+        validate_certs: no
+      register: nodos
+
+    - name: Mostrar nodos encontrados
+      debug:
+        msg: "{{ nodos.json.data | map(attribute='node') | list }}"
+
+    - name: Obtener VMs QEMU por nodo
+      uri:
+        url: "{{ api_host }}/api2/json/nodes/{{ item.node }}/qemu"
+        method: GET
+        headers: "{{ headers }}"
+        validate_certs: no
+      loop: "{{ nodos.json.data }}"
+      loop_control:
+        label: "{{ item.node }}"
+      register: qemu_por_nodo
+
+    - name: Mostrar VMs QEMU por nodo
+      debug:
+        msg: >
+          Nodo {{ item.item.node }} (QEMU):
+          {{ item.json.data | map(attribute='name') | list }}
+      loop: "{{ qemu_por_nodo.results }}"
+
+    - name: Obtener LXC por nodo
+      uri:
+        url: "{{ api_host }}/api2/json/nodes/{{ item.node }}/lxc"
+        method: GET
+        headers: "{{ headers }}"
+        validate_certs: no
+      loop: "{{ nodos.json.data }}"
+      loop_control:
+        label: "{{ item.node }}"
+      register: lxc_por_nodo
+
+    - name: Mostrar LXC por nodo
+      debug:
+        msg: >
+          Nodo {{ item.item.node }} (LXC):
+          {{ item.json.data | map(attribute='name') | list }}
+      loop: "{{ lxc_por_nodo.results }}"
