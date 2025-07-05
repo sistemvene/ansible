@@ -1,5 +1,4 @@
 plugin: community.general.proxmox
-plugin: community.general.proxmox
 url: "{{ lookup('env', 'PROXMOX_URL_NODE02') }}"
 user: "{{ lookup('env', 'PROXMOX_USER_NODE02') }}"
 password: "{{ lookup('env', 'PROXMOX_PASSWORD_NODE02') }}"
