@@ -1,0 +1,7 @@
+plugin: community.general.proxmox
+url: https://192.168.3.6:8006
+user: "{{ proxmox_user }}"
+password: "{{ proxmox_password }}"
+validate_certs: false
+hostnames:
+  - name: name
