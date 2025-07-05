@@ -1,0 +1,4 @@
+proxmox_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+proxmox_pass: "{{ lookup('env', 'PROXMOX_PASS') }}"
+proxmox_test_ip: "{{ lookup('env', 'PROXMOX_TEST_IP') }}"
+proxmox_prod_ip: "{{ lookup('env', 'PROXMOX_PROD_IP') }}"

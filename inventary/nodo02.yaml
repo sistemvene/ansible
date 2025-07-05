@@ -1,0 +1,11 @@
+# inventary/nodo02.yaml
+all:
+  hosts:
+    nodo02:
+      ansible_host: "{{ proxmox_prod_ip }}"
+      ansible_user: "{{ proxmox_user }}"
+      ansible_ssh_pass: "{{ proxmox_pass }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+
