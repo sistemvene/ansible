@@ -1,0 +1,13 @@
+- name: Verificar disponibilidad de actualizaciones
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Debian/Ubuntu - Ver actualizaciones
+      when: ansible_os_family == "Debian"
+      apt:
+        update_cache: yes
+      register: result
+
+    - debug:
+        var: result
