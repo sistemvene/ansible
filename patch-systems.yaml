@@ -1,0 +1,22 @@
+- name: Actualizar todos los sistemas Linux
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Actualizar Debian
+      when: ansible_os_family == "Debian"
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Actualizar RHEL
+      when: ansible_os_family == "RedHat"
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Actualizar Alpine
+      when: ansible_os_family == "Alpine"
+      apk:
+        update_cache: yes
+        upgrade: yes
