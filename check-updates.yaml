@@ -1,13 +1,17 @@
-- name: Verificar disponibilidad de actualizaciones
+---
+- name: Check for Available Updates on Linux Hosts
   hosts: all
   become: true
-
   tasks:
-    - name: Debian/Ubuntu - Ver actualizaciones
+
+    - name: Check updates on Debian/Ubuntu
       when: ansible_os_family == "Debian"
       apt:
         update_cache: yes
-      register: result
+      register: apt_output
 
-    - debug:
-        var: result
+    - name: Check updates on RHEL/CentOS
+      when: ansible_os_family == "RedHat"
+      yum:
+        list: updates
+      register: yum_output
