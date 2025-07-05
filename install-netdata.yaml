@@ -1,0 +1,15 @@
+- name: Instalar Netdata
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Instalar curl
+      package:
+        name: curl
+        state: present
+
+    - name: Ejecutar Netdata Installer
+      shell: |
+        bash <(curl -Ss https://my-netdata.io/kickstart.sh) --dont-wait
+      args:
+        executable: /bin/bash
