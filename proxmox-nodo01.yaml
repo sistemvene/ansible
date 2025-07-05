@@ -1,0 +1,8 @@
+plugin: community.general.proxmox
+url: "{{ lookup('env', 'PROXMOX_URL_NODE01') }}"
+user: "{{ lookup('env', 'PROXMOX_USER_NODE01') }}"
+password: "{{ lookup('env', 'PROXMOX_PASSWORD_NODE01') }}"
+validate_certs: false
+want_facts: true
+group_prefix: 'vm_test_'
+
