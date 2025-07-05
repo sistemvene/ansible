@@ -1,0 +1,36 @@
+---
+- name: Listar nodos y VMs en Proxmox usando token API
+  hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - name: Listar nodos Proxmox
+      community.general.proxmox:
+        api_user: admintst@pam!mytokenid
+        api_token_id: mytokenid
+        api_token_secret: ca6d23ae-161a-4236-87f7-0e0a2ce7e506
+        api_host: 192.168.3.6
+        validate_certs: false
+        resource: nodes
+        state: list
+      register: nodes
+
+    - name: Mostrar nodos
+      debug:
+        var: nodes
+
+    - name: Listar VMs de un nodo específico
+      community.general.proxmox:
+        api_user: admintst@pam!mytokenid
+        api_token_id: mytokenid
+        api_token_secret: ca6d23ae-161a-4236-87f7-0e0a2ce7e506
+        api_host: 192.168.3.6
+        validate_certs: false
+        resource: nodes/vm
+        node: "{{ nodes.data[0].node }}"
+        state: list
+      register: vms
+
+    - name: Mostrar VMs
+      debug:
+        var: vms
