@@ -2,6 +2,7 @@
 - name: Check for Available Updates on Linux Hosts
   hosts: all
   become: true
+  become_method: sudo
   tasks:
 
     - name: Check updates on Debian/Ubuntu
