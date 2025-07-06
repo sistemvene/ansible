@@ -1,0 +1,15 @@
+---
+- name: Basic System Setup
+  hosts: all
+  become: true
+  tasks:
+    - name: Update all security-related packages
+      ansible.builtin.package:
+        name: '*'
+        state: "{{ package_state }}"
+        security: "{{ security_only }}"
+   
+
+
+
+
