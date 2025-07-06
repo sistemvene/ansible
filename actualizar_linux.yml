@@ -1,0 +1,27 @@
+---
+- name: Actualizar todos los paquetes en servidores Linux
+  hosts: all
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Actualizar el caché del gestor de paquetes (apt)
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Actualizar todos los paquetes instalados (apt)
+      apt:
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Actualizar el caché del gestor de paquetes (yum/dnf)
+      yum:
+        update_cache: yes
+      when: ansible_os_family in ["RedHat", "CentOS"]
+
+    - name: Actualizar todos los paquetes instalados (yum/dnf)
+      yum:
+        name: '*'
+        state: latest
+      when: ansible_os_family in ["RedHat", "CentOS"]
